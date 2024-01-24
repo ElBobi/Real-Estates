@@ -92,9 +92,27 @@ namespace RealEstates.Services
 
         public void UpdateTags(int propertyId)
         {
-            throw new NotImplementedException();
+            var property = this.db.RealEstateProperties.FirstOrDefault(x => x.Id == propertyId);
+            property.Tags.Clear();
+            if (property.Year.HasValue && property.Year < 1990)
+            {
+                property.Tags.Add(
+                    new RealEstatePropertyTag
+                    {
+                        Tag = this.GetOrCreateTag("OldBuilding")
+                    });
+            
+            }
         }
-
+        private Tag GetOrCreateTag(string tag)
+        {
+            var tagEntity = this.db.Tags.FirstOrDefault(x => x.Name.Trim() == tag.Trim());
+            if (tagEntity == null)
+            {
+                tagEntity = new Tag { Name = tag.Trim() };
+            }
+            return tagEntity;
+        }
         private static Expression<Func<RealEstateProperty, PropertyViewModel>> MapToPropertyViewModel()
         {
             return x => new PropertyViewModel
@@ -109,4 +127,6 @@ namespace RealEstates.Services
             };
         }
     }
+
+    
 }

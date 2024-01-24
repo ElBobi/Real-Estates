@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RealEstates.Data;
+using RealEstates.Services;
 
 namespace RealEstates.ConsoleApplication
 {
@@ -10,7 +11,8 @@ namespace RealEstates.ConsoleApplication
             var db = new RealEstateDbContext();
             db.Database.Migrate();
 
-
+            IPropertiesService propertiesService = new PropertiesService(db);
+            propertiesService.Create("Дианабад", 120, 2018, 200000, "4-СТАЕН", "ЕПК", 16, 20);
         }
     }
 }
