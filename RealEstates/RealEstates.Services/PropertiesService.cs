@@ -94,6 +94,7 @@ namespace RealEstates.Services
         {
             var property = this.db.RealEstateProperties.FirstOrDefault(x => x.Id == propertyId);
             property.Tags.Clear();
+
             if (property.Year.HasValue && property.Year < 1990)
             {
                 property.Tags.Add(
@@ -103,13 +104,65 @@ namespace RealEstates.Services
                     });
             
             }
+
+            if (property.Size > 120)
+            {
+                property.Tags.Add(
+                    new RealEstatePropertyTag
+                    {
+                        Tag = this.GetOrCreateTag("HugeApartament")
+                    });
+
+            }
+
+            if (property.Year > 2018 && property.TotalNumberOfFloors > 5)
+            {
+                property.Tags.Add(
+                    new RealEstatePropertyTag
+                    {
+                        Tag = this.GetOrCreateTag("HasParking")
+                    });
+
+            }
+
+            if (property.Floor == property.TotalNumberOfFloors)
+            {
+                property.Tags.Add(
+                    new RealEstatePropertyTag
+                    {
+                        Tag = this.GetOrCreateTag("LastFloor")
+                    });
+
+            }
+
+            if (((double)property.Price / property.Size) < 800)
+            {
+                property.Tags.Add(
+                    new RealEstatePropertyTag
+                    {
+                        Tag = this.GetOrCreateTag("CheapProperty")
+                    });
+
+            }
+
+            if (((double)property.Price / property.Size) > 2000)
+            {
+                property.Tags.Add(
+                    new RealEstatePropertyTag
+                    {
+                        Tag = this.GetOrCreateTag("ExpensiveProperty")
+                    });
+
+            }
+
+            this.db.SaveChanges();
         }
         private Tag GetOrCreateTag(string tag)
         {
             var tagEntity = this.db.Tags.FirstOrDefault(x => x.Name.Trim() == tag.Trim());
             if (tagEntity == null)
             {
-                tagEntity = new Tag { Name = tag.Trim() };
+                tagEntity = new Tag { Name = tag.Trim(), Description = "Unspecified" };
             }
             return tagEntity;
         }
