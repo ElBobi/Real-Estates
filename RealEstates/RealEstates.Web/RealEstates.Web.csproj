@@ -6,4 +6,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Fluent.Infrastructure" Version="2.0.0-beta-01" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RealEstates.ConsoleApplication\RealEstates.ConsoleApplication.csproj" />
+    <ProjectReference Include="..\RealEstates.Data\RealEstates.Data.csproj" />
+    <ProjectReference Include="..\RealEstates.Importer\RealEstates.Importer.csproj" />
+    <ProjectReference Include="..\RealEstates.Models\RealEstates.Models.csproj" />
+    <ProjectReference Include="..\RealEstates.Services\RealEstates.Services.csproj" />
+  </ItemGroup>
+
 </Project>

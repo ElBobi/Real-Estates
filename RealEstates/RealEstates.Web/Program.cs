@@ -1,3 +1,5 @@
+
+
 namespace RealEstates.Web
 {
     public class Program
@@ -5,11 +7,14 @@ namespace RealEstates.Web
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var startup = new Startup(builder.Configuration);
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+            startup.ConfigureServices(builder.Services);
 
             var app = builder.Build();
+            startup.Configure(app, app.Environment);
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
